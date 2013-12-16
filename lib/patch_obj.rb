@@ -15,11 +15,9 @@ class PatchObj
     @diffs = []
   end
 
-  OPERATOR_TO_CHAR = {insert: '+', delete: '-', equal: ' '}
-  private_constant :OPERATOR_TO_CHAR
+  OPERATOR_TO_CHAR = {:insert => '+', :delete => '-', :equal => ' '}
   
   ENCODE_REGEX = /[^0-9A-Za-z_.;!~*'(),\/?:@&=+$\#-]/
-  private_constant :ENCODE_REGEX
 
   # Emulate GNU diff's format
   # Header: @@ -382,8 +481,9 @@

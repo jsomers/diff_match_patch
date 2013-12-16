@@ -229,9 +229,9 @@ class DiffMatchPatch
       chars = ''
       text.each_line do |line|
         if line_hash[line]
-          chars += line_hash[line].chr(Encoding::UTF_8)
+          chars += line_hash[line].chr
         else
-          chars += line_array.length.chr(Encoding::UTF_8)
+          chars += line_array.length.chr
           line_hash[line] = line_array.length
           line_array.push(line)
         end
@@ -914,7 +914,7 @@ class DiffMatchPatch
       param = token[1..-1]
       case token[0]
         when '+'
-          diffs.push([:insert, URI.decode(param.force_encoding(Encoding::UTF_8))])
+          diffs.push([:insert, URI.decode(param)])
         when '-', '='
           begin
             n = Integer(param)
@@ -977,7 +977,7 @@ class DiffMatchPatch
     s = match_alphabet(pattern)
 
     # Compute and return the score for a match with e errors and x location.
-    match_bitapScore = -> e, x do
+    match_bitapScore = lambda do |e, x|
       accuracy = e.to_f / pattern.length
       proximity = (loc - x).abs
       if match_distance == 0
@@ -985,7 +985,7 @@ class DiffMatchPatch
         return proximity == 0 ? accuracy : 1.0
       end
       return accuracy + (proximity.to_f / match_distance)
-    end    
+    end
   
     # Highest score beyond which we give up.
     score_threshold = match_threshold
@@ -1123,7 +1123,7 @@ class DiffMatchPatch
         end
 
         sign = text[text_pointer][0]
-        line = URI.decode(text[text_pointer][1..-1].force_encoding(Encoding::UTF_8))
+        line = URI.decode(text[text_pointer][1..-1])
 
         case sign
         when '-'
@@ -1390,7 +1390,7 @@ class DiffMatchPatch
   # something. Intended to be called only from within patch_apply.
   def patch_addPadding(patches)
     padding_length = patch_margin
-    null_padding = (1..padding_length).map{ |x| x.chr(Encoding::UTF_8) }.join
+    null_padding = (1..padding_length).map{ |x| x.chr }.join
   
     # Bump all the patches forward.
     patches.each do |patch|
