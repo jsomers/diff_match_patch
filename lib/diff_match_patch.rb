@@ -229,9 +229,9 @@ class DiffMatchPatch
       chars = ''
       text.each_line do |line|
         if line_hash[line]
-          chars += line_hash[line].chr
+          chars += [line_hash[line]].pack('U')
         else
-          chars += line_array.length.chr
+          chars += [line_array.length].pack('U')
           line_hash[line] = line_array.length
           line_array.push(line)
         end
